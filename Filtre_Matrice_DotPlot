@@ -1,0 +1,55 @@
+def is_zero(value):
+    return value == 0
+
+def has_left(index_j):
+    return index_j - 1 >= 0
+
+def has_right(index_j, taille):
+    return index_j + 1 < taille
+
+def has_up(index_i):
+    return index_i - 1 >= 0
+
+def has_down(index_i, taille):
+    return index_i + 1 < taille
+
+def voisins_zeros(matplot, index_i, index_j, taille):
+    if has_left(index_j):
+        if not is_zero(matplot[index_i, index_j - 1]): # G,M
+            return 0
+        if has_up(index_i):
+            if not is_zero(matplot[index_i - 1, index_j - 1]):  #G,H
+                return 0
+        if has_down(index_i, taille):
+                if not is_zero(matplot[index_i + 1, index_j - 1]):  #G,B
+                    return 0
+    if has_right(index_j, taille):
+        print (index_j+1, ' > ', taille, ' == ', has_right(index_j, taille))
+        if not is_zero(matplot[index_i, index_j + 1]):  #R,M
+            return 0
+        if has_up(index_i):
+            if not is_zero(matplot[index_i - 1, index_j + 1]):  #R,H
+                return 0
+        if has_down(index_i, taille):
+            if not is_zero(matplot[index_i + 1, index_j + 1]):  #R,B
+                return 0
+    if has_up(index_i):
+        if not is_zero(matplot[index_i - 1, index_j]):  #M,H
+            return 0
+    if has_down(index_i, taille):
+        if not is_zero(matplot[index_i + 1, index_j]):  #M,B
+            return 0
+
+
+
+    return 1
+
+
+def filter_ones(matplot, taille):
+    for i in range(0, taille - 1):
+        for j in range(0, taille - 1):
+            if matplot[i, j] == 1:
+                if voisins_zeros(matplot, i, j, taille):
+                    matplot[i, j] = 0
+
+    return matplot
